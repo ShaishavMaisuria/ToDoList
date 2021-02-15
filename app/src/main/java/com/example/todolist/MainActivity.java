@@ -22,6 +22,7 @@ final static public int REQ_CODE=100;
     List<CharSequence> charSequenceList;
     CharSequence[] c;
     String[] Names={"ram","ravi"};
+    final static public String Name_key="Main Acitivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,14 @@ final static public int REQ_CODE=100;
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("demo", Names[which]);
                         Intent intent = new Intent(MainActivity.this, DisplayTask.class);
-                        startActivityForResult(intent,REQ_CODE);
+
+                        Task task= new Task("harry","10/30/2010",3);
+                        intent.putExtra(Name_key,task);
+
+                        Log.d("demo"," Submit button"+task);
+                        startActivity(intent);
+
+
 
                     }
                 });
