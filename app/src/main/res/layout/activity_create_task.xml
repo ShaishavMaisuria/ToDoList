@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewdate" />
 
     <RadioGroup
-        android:id="@+id/radioGrougCreateTask"
+        android:id="@+id/radioGroupCreateTask"
         android:layout_width="220dp"
         android:layout_height="166dp"
         android:layout_marginTop="56dp"
@@ -115,7 +115,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonSubmit"
         app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrougCreateTask" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupCreateTask" />
 
     <Button
         android:id="@+id/buttonSubmit"
@@ -126,6 +126,6 @@
         android:layout_marginRight="32dp"
         android:text="@string/stringButtonSubmit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrougCreateTask" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupCreateTask" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
