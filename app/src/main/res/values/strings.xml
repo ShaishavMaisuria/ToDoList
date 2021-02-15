@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">To Do List</string>
+    <string name="stringButtonViewTasks">VIEW TASKS</string>
+    <string name="stringButtonCreateTask">CREATE A TASK</string>
+    <string name="stringName">Name:</string>
+    <string name="stringDate">Date:</string>
+
+    <string name="stringCancel">Cancel</string>
+    <string name="stringDelete">Delete</string>
+    <string name="stringSetDate">Set Date</string>
+    <string name="stringTaskName">Task Name</string>
+    <string name="stringPriority">Priority</string>
+    <string name="stringRadioButtonHigh">High</string>
+    <string name="stringRadioButtonMedium">Medium</string>
+    <string name="stringRadioButtonLow">Low</string>
+    <string name="stringButtonSubmit">Submit</string>
+    <string name="stringTaskInformation">Task Information</string>
+</resources>
