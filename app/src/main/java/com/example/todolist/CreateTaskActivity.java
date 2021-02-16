@@ -35,6 +35,7 @@ Calendar calendar;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
 
+        setTitle("Create Task");
         tName=findViewById(R.id.editTextTaskName);
         calendar=Calendar.getInstance();
         taskName=tName.getText().toString();
@@ -63,7 +64,6 @@ Calendar calendar;
                 Intent createTaskIntent = new Intent();
                 taskName = tName.getText().toString();
 
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
                 if(date==null){
                     Toast.makeText(CreateTaskActivity.this,"Please Pick a Date",Toast.LENGTH_SHORT).show();

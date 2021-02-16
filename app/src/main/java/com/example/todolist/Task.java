@@ -1,6 +1,8 @@
 package com.example.todolist;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task implements Serializable {
@@ -39,12 +41,20 @@ public class Task implements Serializable {
         this.priority = priority;
     }
 
+
     @Override
     public String toString() {
-        return "TaskName='" + taskName + '\'' +
-                "\n  Date='" + taskDueDate + '\'' +
-                "\n \t \t priority=" + priority
-                ;
+
+        String dateInput=taskDueDate.toString();
+        String dateOutput=dateInput.substring(0,10)+" "+dateInput.substring(24,28);
+
+
+
+                    return "TaskName= " + taskName + '\'' +
+                    "\nDate= " +     dateOutput+                    "\n \t \t \t \t \t \t \t \t                \t \t \t   priority=" + priority
+                    ;
+
+
     }
 
     public int compareTo(Task T) {

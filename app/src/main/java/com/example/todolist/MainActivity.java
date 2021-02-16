@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
         tasksList = new ArrayList<>();
         format = new SimpleDateFormat("yyyy-MM-dd");
         taskNumber = findViewById(R.id.textViewNumberTasks);
-        taskNumber.setText("You have " + tasksList.size() + " tasks");
+//       taskNumber.setText("You have " + tasksList.size() + " tasks");
         taskListView = findViewById(R.id.textViewTaskList);
+        updateListView();
+
         findViewById(R.id.buttonViewTask).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
                         for (int i = 0; i < tasksList.size(); i++) {
                             taskNames[i] = tasksList.get(i).getTaskName();
+                            Log.d("demo1",taskNames[i]);
                         }
+//                        for(int i=tasksList.size()-1;i>=0;i--){
+//                            taskNames[i] = tasksList.get(i).getTaskName();
+//                        }
 
                         builder.setItems(taskNames, new DialogInterface.OnClickListener() {
                             @Override

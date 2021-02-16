@@ -16,6 +16,7 @@ public class DisplayTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_task);
 
+        setTitle("Display Task");
         if(getIntent()!=null && getIntent().getExtras()!=null && getIntent().hasExtra(MainActivity.TASK_KEY)){
             task = (Task) getIntent().getSerializableExtra(MainActivity.TASK_KEY);
             Log.d("demo","displayTask"+task.toString());
