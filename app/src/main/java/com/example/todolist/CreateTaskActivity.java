@@ -2,20 +2,31 @@ package com.example.todolist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
-public class CreateTask extends AppCompatActivity {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class CreateTaskActivity extends AppCompatActivity {
     final static public String Name_key ="Create Task";
     final static public int REQ_CODE=101;
     Task task;
     EditText tName;
     String taskName;
     Integer checkedValue;
+
+    Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +35,7 @@ public class CreateTask extends AppCompatActivity {
 
         tName=findViewById(R.id.editTextTaskName);
         taskName=tName.getText().toString();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         RadioGroup radioGroup= findViewById(R.id.radioGroupCreateTask);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -45,12 +57,17 @@ public class CreateTask extends AppCompatActivity {
         findViewById(R.id.buttonSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent displayTaskIntent= new Intent();
+                Intent createTaskIntent= new Intent();
                 taskName=tName.getText().toString();
 
-                task= new Task(taskName,"10/30/2010",checkedValue);
-                displayTaskIntent.putExtra(Name_key,task);
-                setResult(RESULT_OK,displayTaskIntent);
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                task= new Task(taskName,date,checkedValue);
+
+
+
+                createTaskIntent.putExtra(Name_key,task);
+                setResult(RESULT_OK,createTaskIntent);
                 Log.d("demo"," Submit button"+task);
                 finish();
             }
@@ -66,5 +83,37 @@ public class CreateTask extends AppCompatActivity {
         });
 
 
+
+        findViewById(R.id.buttonSetDate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               DatePickerDialog dialog = new DatePickerDialog(CreateTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
+                   @Override
+                   public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                       Log.d("demo", "onDateSet: "+year);
+                       Log.d("demo", "onDateSet: "+month);
+                       Log.d("demo", "onDateSet: "+dayOfMonth);
+
+                       try {
+                           date=format.parse(year+"-"+month+"-"+dayOfMonth);
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+
+                       TextView dateCreateTask=findViewById(R.id.textViewDateValue);
+
+                       dateCreateTask.setText(date.toString());
+
+                   }
+               }, 2021, 2, 15);
+
+               dialog.show();
+            }
+        });
+
     }
+
+
+
 }

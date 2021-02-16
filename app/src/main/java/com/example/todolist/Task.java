@@ -1,71 +1,64 @@
 package com.example.todolist;
+
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task implements Serializable {
-    String TaskName;
-    String TaskDate;
+    String taskName;
+    //String taskDate;
     Integer priority;
+    Date taskDueDate;
 
-    public Task(String taskName, String taskDate, Integer priority) {
-        TaskName = taskName;
-        TaskDate = taskDate;
-        this.priority = priority;
-    }
-
-    public void setTaskName(String taskName) {
-        TaskName = taskName;
-    }
-
-    public void setTaskDate(String taskDate) {
-        TaskDate = taskDate;
-    }
-
-    public void setPriority(Integer priority) {
+    public Task(String taskName, Date taskDueDate, Integer priority) {
+        this.taskName = taskName;
+        this.taskDueDate = taskDueDate;
         this.priority = priority;
     }
 
     public String getTaskName() {
-        return TaskName;
+        return taskName;
     }
 
-    public String getTaskDate() {
-        return TaskDate;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public Date gettaskDueDate() {
+        return taskDueDate;
+    }
+
+    public void settaskDueDate(Date taskDate) {
+        this.taskDueDate = taskDate;
     }
 
     public Integer getPriority() {
         return priority;
     }
 
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
     @Override
     public String toString() {
         return "Task" +
-                "TaskName='" + TaskName + '\'' +
-                "\n , Date='" + TaskDate + '\'' +
+                "TaskName='" + taskName + '\'' +
+                "\n , Date='" + taskDueDate + '\'' +
                 "\n , priority=" + priority
                 ;
     }
 
-public int compareTo(Task T)  {
-    SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-    Date date1= null;
-    try {
-        date1 = format.parse(T.TaskDate.toString());
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-    Date date2= null;
-    try {
-        date2 = format.parse(this.TaskDate.toString());
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
+    public int compareTo(Task T) {
+        if(this.taskDueDate.before((T.taskDueDate))){
+            return 1;
+        }
 
-    return date1.compareTo(date2);
-}
+        if(this.taskDueDate.after(T.taskDueDate)){
+            return  -1;
+        }
 
+        return  0;
+    }
 
 
 }

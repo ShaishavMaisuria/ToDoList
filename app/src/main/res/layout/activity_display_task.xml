@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DisplayTask">
+    tools:context=".DisplayTaskActivity">
 
     <TextView
         android:id="@+id/textViewTaskInformation"
@@ -100,7 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewPrior" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonDeleteDisplay"
         android:layout_width="99dp"
         android:layout_height="53dp"
         android:layout_marginStart="88dp"
