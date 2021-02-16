@@ -1,5 +1,7 @@
 package com.example.todolist;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,9 +13,16 @@ public class Task implements Serializable {
     Integer priority;
     Date taskDueDate;
 
-    public Task(String taskName, Date taskDueDate, Integer priority) {
+    public Task(String taskName, Date taskDate, Integer priority) {
         this.taskName = taskName;
-        this.taskDueDate = taskDueDate;
+
+
+        try {
+            this.taskDueDate =  new SimpleDateFormat("MM/dd/yyyy").parse(taskDate.toString());
+            Log.d("taskdate","date= "+this.taskDueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.priority = priority;
     }
 
@@ -45,29 +54,15 @@ public class Task implements Serializable {
     @Override
     public String toString() {
 
-        String dateInput=taskDueDate.toString();
-        String dateOutput=dateInput.substring(0,10)+" "+dateInput.substring(24,28);
-
 
 
                     return "TaskName= " + taskName + '\'' +
-                    "\nDate= " +     dateOutput+                    "\n \t \t \t \t \t \t \t \t                \t \t \t   priority=" + priority
+                    "\nDate= " +     taskDueDate+                    "\n \t \t \t \t \t \t \t \t                \t \t \t   priority=" + priority
                     ;
 
 
     }
 
-    public int compareTo(Task T) {
-        if(this.taskDueDate.before((T.taskDueDate))){
-            return 1;
-        }
-
-        if(this.taskDueDate.after(T.taskDueDate)){
-            return  -1;
-        }
-
-        return  0;
-    }
 
 
 }

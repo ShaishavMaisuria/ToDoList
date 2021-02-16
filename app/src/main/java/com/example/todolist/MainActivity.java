@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
     final static public int REQ_CODE_Display_task = 100;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tasksList = new ArrayList<>();
-        format = new SimpleDateFormat("yyyy-MM-dd");
+//        format = new SimpleDateFormat("MM/dd/yyyy");
         taskNumber = findViewById(R.id.textViewNumberTasks);
 //       taskNumber.setText("You have " + tasksList.size() + " tasks");
         taskListView = findViewById(R.id.textViewTaskList);
@@ -50,6 +51,19 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 if (tasksList.size() > 0) {
+
+                    try {
+                        Collections.sort(tasksList, new Comparator<Task>() {
+                            @Override
+                            public int compare(Task o1, Task o2) {
+                                return o1.gettaskDueDate().compareTo(o2.gettaskDueDate());
+                            }
+                        });
+                        Log.d("task", tasksList.toString());
+                    } catch (Exception e) {
+                        Log.d("demo", e.toString());
+                    }
+
                         taskNames = new String[tasksList.size()];
 
                         for (int i = 0; i < tasksList.size(); i++) {
@@ -109,7 +123,12 @@ public class MainActivity extends AppCompatActivity {
                 tasksList.add(taskInfo);
 
                 try {
-                    Collections.sort(tasksList, Task::compareTo);
+                    Collections.sort(tasksList, new Comparator<Task>() {
+                        @Override
+                        public int compare(Task o1, Task o2) {
+                            return o1.gettaskDueDate().compareTo(o2.gettaskDueDate());
+                        }
+                    });
                     Log.d("task", tasksList.toString());
                 } catch (Exception e) {
                     Log.d("demo", e.toString());
@@ -147,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(tasksList.size()>0) {
             taskNumber.setText("You have " + tasksList.size() + " tasks");
-            taskListView.setText(tasksList.get(tasksList.size() - 1).toString());
+            taskListView.setText(tasksList.get(0).toString());
         }else{
             taskNumber.setText("You have " + tasksList.size() + " tasks");
             taskListView.setText("none");

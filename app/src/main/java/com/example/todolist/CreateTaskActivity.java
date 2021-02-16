@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,7 +40,9 @@ Calendar calendar;
         tName=findViewById(R.id.editTextTaskName);
         calendar=Calendar.getInstance();
         taskName=tName.getText().toString();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+
+
 
         RadioGroup radioGroup= findViewById(R.id.radioGroupCreateTask);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -63,9 +66,9 @@ Calendar calendar;
             public void onClick(View v) {
                 Intent createTaskIntent = new Intent();
                 taskName = tName.getText().toString();
+                String dateString = dateCreateTask.getText().toString();
 
-
-                if(date==null){
+                if(dateString.equals("")){
                     Toast.makeText(CreateTaskActivity.this,"Please Pick a Date",Toast.LENGTH_SHORT).show();
                 }else if(taskName.isEmpty()){
                     Toast.makeText(CreateTaskActivity.this,"Please write Name of Task",Toast.LENGTH_SHORT).show();
@@ -76,7 +79,11 @@ Calendar calendar;
                 else {
 
 
-                    task = new Task(taskName, date, checkedValue);
+                    try {
+                        task = new Task(taskName, new SimpleDateFormat("MM/dd/yyyy").parse(dateString), checkedValue);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
 
                     createTaskIntent.putExtra(Name_key, task);
@@ -109,15 +116,31 @@ Calendar calendar;
                        Log.d("demo", "onDateSet: "+month);
                        Log.d("demo", "onDateSet: "+dayOfMonth);
 
-                       try {
-                           date=format.parse(year+"-"+month+"-"+dayOfMonth);
-                       } catch (ParseException e) {
-                           e.printStackTrace();
-                       }
+                       Calendar cal = Calendar.getInstance();
+                       cal.setTimeInMillis(0);
+                       cal.set(year, month , dayOfMonth, 0, 0, 0);
+                       String date1 = new SimpleDateFormat("MM/dd/YYYY").format(cal.getTime());
+                       Log.d("date", date1);
+                       dateCreateTask=findViewById(R.id.textViewDateValue);
 
-                        dateCreateTask=findViewById(R.id.textViewDateValue);
+                       dateCreateTask.setText(date1);
 
-                       dateCreateTask.setText(date.toString());
+//
+//                       try {
+//                           int monthvalue=month+1;
+//                           String dateString=  year+"-"+monthvalue +"-"+dayOfMonth;
+//                           date=(Date) parser.parse(dateString);
+//
+//                           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                           date  = format.parse(dateString);
+//
+//                       } catch (ParseException e) {
+//                           e.printStackTrace();
+//                       }
+//
+//                        dateCreateTask=findViewById(R.id.textViewDateValue);
+//
+//                       dateCreateTask.setText(date.toString());
 
                    }
                }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
