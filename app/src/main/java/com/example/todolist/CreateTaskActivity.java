@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,8 +26,9 @@ public class CreateTaskActivity extends AppCompatActivity {
     EditText tName;
     String taskName;
     Integer checkedValue;
-
-    Date date;
+    TextView dateCreateTask;
+Calendar calendar;
+    Date date=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_task);
 
         tName=findViewById(R.id.editTextTaskName);
+        calendar=Calendar.getInstance();
         taskName=tName.getText().toString();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -57,19 +60,30 @@ public class CreateTaskActivity extends AppCompatActivity {
         findViewById(R.id.buttonSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent createTaskIntent= new Intent();
-                taskName=tName.getText().toString();
+                Intent createTaskIntent = new Intent();
+                taskName = tName.getText().toString();
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-                task= new Task(taskName,date,checkedValue);
+                if(date==null){
+                    Toast.makeText(CreateTaskActivity.this,"Please Pick a Date",Toast.LENGTH_SHORT).show();
+                }else if(taskName.isEmpty()){
+                    Toast.makeText(CreateTaskActivity.this,"Please write Name of Task",Toast.LENGTH_SHORT).show();
+                } else if (radioGroup.getCheckedRadioButtonId()==-1){
+                    Toast.makeText(CreateTaskActivity.this,"Please select priority",Toast.LENGTH_SHORT).show();
+                   Log.d("demo2", "value" +radioGroup.getCheckedRadioButtonId());
+                }
+                else {
 
 
+                    task = new Task(taskName, date, checkedValue);
 
-                createTaskIntent.putExtra(Name_key,task);
-                setResult(RESULT_OK,createTaskIntent);
-                Log.d("demo"," Submit button"+task);
-                finish();
+
+                    createTaskIntent.putExtra(Name_key, task);
+                    setResult(RESULT_OK, createTaskIntent);
+                    Log.d("demo3", " Submit button" +date );
+                    finish();
+                }
             }
         });
 
@@ -101,12 +115,12 @@ public class CreateTaskActivity extends AppCompatActivity {
                            e.printStackTrace();
                        }
 
-                       TextView dateCreateTask=findViewById(R.id.textViewDateValue);
+                        dateCreateTask=findViewById(R.id.textViewDateValue);
 
                        dateCreateTask.setText(date.toString());
 
                    }
-               }, 2021, 2, 15);
+               }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
                dialog.show();
             }

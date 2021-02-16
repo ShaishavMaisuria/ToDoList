@@ -41,10 +41,9 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "Task" +
-                "TaskName='" + taskName + '\'' +
-                "\n , Date='" + taskDueDate + '\'' +
-                "\n , priority=" + priority
+        return "TaskName='" + taskName + '\'' +
+                "\n  Date='" + taskDueDate + '\'' +
+                "\n \t \t priority=" + priority
                 ;
     }
 

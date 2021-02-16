@@ -10,17 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
-    final static public int REQ_CODE = 100;
+    final static public int REQ_CODE_Display_task = 100;
     final static public int REQ_CODE_Create_task = 101;
     ArrayList<Task> tasksList;
-
+    TextView taskListView;
     TextView taskNumber;
     String[] taskNames;
     final static public String TASK_KEY = "TASK_KEY";
@@ -30,46 +30,46 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//                    String taskname = "Compelete Hw 1";
-//                    String date = "2021-1-1";
-//                    Integer priority = 0;
-
         tasksList = new ArrayList<>();
-
         format = new SimpleDateFormat("yyyy-MM-dd");
-
-
-
         taskNumber = findViewById(R.id.textViewNumberTasks);
-
         taskNumber.setText("You have " + tasksList.size() + " tasks");
-
+        taskListView = findViewById(R.id.textViewTaskList);
         findViewById(R.id.buttonViewTask).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Remaing tasks");
+                builder.setTitle("Remaining tasks").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
 
                 if (tasksList.size() > 0) {
-                    taskNames = new String[tasksList.size()];
+                        taskNames = new String[tasksList.size()];
 
-                    for (int i = 0; i < tasksList.size(); i++) {
-                        taskNames[i] = tasksList.get(i).getTaskName();
-                    }
-
-                    builder.setItems(taskNames, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Task selectedTask = tasksList.get(which);
-                            Intent intent = new Intent(MainActivity.this, DisplayTaskActivity.class);
-                            intent.putExtra(TASK_KEY, selectedTask);
-                            startActivityForResult(intent, REQ_CODE);
+                        for (int i = 0; i < tasksList.size(); i++) {
+                            taskNames[i] = tasksList.get(i).getTaskName();
                         }
-                    });
-                    builder.create().show();
+
+                        builder.setItems(taskNames, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Task selectedTask = tasksList.get(which);
+                                Intent intent = new Intent(MainActivity.this, DisplayTaskActivity.class);
+                                intent.putExtra(TASK_KEY, selectedTask);
+                                startActivityForResult(intent, REQ_CODE_Display_task);
+                            }
+                        });
+
+
+
+                        builder.create().show();
                 } else {
 
+                    Toast.makeText(MainActivity.this,"Please Create New Task",Toast.LENGTH_LONG).show();
                 }
 
 
@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 Task taskInfo = (Task) data.getSerializableExtra(CreateTaskActivity.Name_key);
 
                 tasksList.add(taskInfo);
-                Log.d("demo", String.valueOf(tasksList.size()));
 
                 try {
                     Collections.sort(tasksList, Task::compareTo);
@@ -110,34 +109,19 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("demo", e.toString());
                 }
 
-                Log.d("demo", String.valueOf(tasksList.size()));
-
-
-                taskNumber.setText("You have " + tasksList.size() + " tasks");
-
-
-                TextView taskListView = findViewById(R.id.textViewTaskList);
-                taskListView.setText(tasksList.get(tasksList.size() - 1).toString());
-
-
-                Log.d("demo", "data" + taskInfo);
+                updateListView();
 
             }
 
-            if (requestCode == REQ_CODE && data != null && data.hasExtra(DisplayTaskActivity.display_key)) {
+            if (requestCode == REQ_CODE_Display_task && data != null && data.hasExtra(DisplayTaskActivity.display_key)) {
                 Task taskDelete = (Task) data.getSerializableExtra(DisplayTaskActivity.display_key);
                 for (int i = 0; i < tasksList.size(); i++) {
 
                     Log.d("demo1", " Display going taskslist" + tasksList.toString());
-                    if (taskDelete.getTaskName().equalsIgnoreCase(tasksList.get(i).getTaskName())) {
+                    if ( (taskDelete.getTaskName().equalsIgnoreCase(tasksList.get(i).getTaskName())) && (taskDelete.gettaskDueDate().toString().equalsIgnoreCase(tasksList.get(i).taskDueDate.toString()))    ) {
 
                         tasksList.remove(i);
-                        Log.d("demo1", " Display going int" + tasksList.size());
-                        taskNumber.setText("You have " + tasksList.size() + " tasks");
-
-
-                        TextView taskListView = findViewById(R.id.textViewTaskList);
-                        taskListView.setText(tasksList.get(tasksList.size() - 1).toString());
+                        updateListView();
 
                     }
 
@@ -150,6 +134,18 @@ public class MainActivity extends AppCompatActivity {
             Log.d("demo", " result canceled ");
         }
 
-
     }
+
+    private void updateListView(){
+        Log.d("demo1", " Display going int" + tasksList.size());
+
+        if(tasksList.size()>0) {
+            taskNumber.setText("You have " + tasksList.size() + " tasks");
+            taskListView.setText(tasksList.get(tasksList.size() - 1).toString());
+        }else{
+            taskNumber.setText("You have " + tasksList.size() + " tasks");
+            taskListView.setText("none");
+        }
+    }
+
 }
