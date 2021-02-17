@@ -15,4 +15,5 @@
     <string name="stringRadioButtonLow">Low</string>
     <string name="stringButtonSubmit">Submit</string>
     <string name="stringTaskInformation">Task Information</string>
+    <string name="UpcomingTasks">Upcoming Tasks</string>
 </resources>

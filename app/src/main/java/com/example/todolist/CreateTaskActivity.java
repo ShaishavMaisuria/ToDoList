@@ -26,11 +26,11 @@ public class CreateTaskActivity extends AppCompatActivity {
     Task task;
     EditText tName;
     String taskName;
-    Integer checkedValue;
+    String checkedValue;
     TextView dateCreateTask;
 Calendar calendar;
     Date date=null;
-
+    Calendar cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ Calendar calendar;
 
         setTitle("Create Task");
         tName=findViewById(R.id.editTextTaskName);
+        dateCreateTask=findViewById(R.id.textViewDateValue);
         calendar=Calendar.getInstance();
         taskName=tName.getText().toString();
 
@@ -49,11 +50,11 @@ Calendar calendar;
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==R.id.radioButtonHigh){
-                    checkedValue=3;
+                    checkedValue="High";
                 }else  if(checkedId==R.id.radioButtonLow){
-                    checkedValue=1;
+                    checkedValue="Low";
                 }else  if(checkedId==R.id.radioButtonMedium){
-                    checkedValue=2;
+                    checkedValue="Medium";
                 }else{
                     Log.d("demo","not selected radio group");
                 }
@@ -79,12 +80,13 @@ Calendar calendar;
                 else {
 
 
-                    try {
-                        task = new Task(taskName, new SimpleDateFormat("MM/dd/yyyy").parse(dateString), checkedValue);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        task = new Task(taskName, new SimpleDateFormat("MM/dd/yyyy").parse(dateString), checkedValue);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
 
+                    task=new Task(taskName,cal,checkedValue);
 
                     createTaskIntent.putExtra(Name_key, task);
                     setResult(RESULT_OK, createTaskIntent);
@@ -116,12 +118,12 @@ Calendar calendar;
                        Log.d("demo", "onDateSet: "+month);
                        Log.d("demo", "onDateSet: "+dayOfMonth);
 
-                       Calendar cal = Calendar.getInstance();
+                       cal = Calendar.getInstance();
                        cal.setTimeInMillis(0);
                        cal.set(year, month , dayOfMonth, 0, 0, 0);
                        String date1 = new SimpleDateFormat("MM/dd/YYYY").format(cal.getTime());
                        Log.d("date", date1);
-                       dateCreateTask=findViewById(R.id.textViewDateValue);
+
 
                        dateCreateTask.setText(date1);
 

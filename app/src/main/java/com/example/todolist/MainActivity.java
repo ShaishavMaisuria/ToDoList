@@ -1,5 +1,7 @@
 package com.example.todolist;
-
+/*
+* @author Shaishav Maisuria
+ */
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     String[] taskNames;
     final static public String TASK_KEY = "TASK_KEY";
     SimpleDateFormat format;
+    TextView taskNameView;
+    TextView taskDateView;
+    TextView taskPriorityView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +41,12 @@ public class MainActivity extends AppCompatActivity {
         taskNumber = findViewById(R.id.textViewNumberTasks);
 //       taskNumber.setText("You have " + tasksList.size() + " tasks");
         taskListView = findViewById(R.id.textViewTaskList);
+        taskNameView=findViewById(R.id.textViewTaskNameMain);
+        taskDateView=findViewById(R.id.textViewDateMain);
+        taskPriorityView=findViewById(R.id.textViewPriorityMain);
         updateListView();
+
+
 
         findViewById(R.id.buttonViewTask).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < tasksList.size(); i++) {
 
                     Log.d("demo1", " Display going taskslist" + tasksList.toString());
-                    if ( (taskDelete.getTaskName().equalsIgnoreCase(tasksList.get(i).getTaskName())) && (taskDelete.gettaskDueDate().toString().equalsIgnoreCase(tasksList.get(i).taskDueDate.toString()))    ) {
+                    if ( (taskDelete.getTaskName().equalsIgnoreCase(tasksList.get(i).getTaskName())) && (taskDelete.gettaskDueDate().toString().equalsIgnoreCase(tasksList.get(i).taskDueDate.toString())) &&
+                            (taskDelete.priority.equalsIgnoreCase(tasksList.get(i).priority))) {
 
                         tasksList.remove(i);
                         updateListView();
@@ -165,11 +176,20 @@ public class MainActivity extends AppCompatActivity {
         Log.d("demo1", " Display going int" + tasksList.size());
 
         if(tasksList.size()>0) {
+
             taskNumber.setText("You have " + tasksList.size() + " tasks");
-            taskListView.setText(tasksList.get(0).toString());
+
+
+            taskDateView.setText(tasksList.get(0).convertedDate());
+            taskNameView.setText(tasksList.get(0).taskName);
+            taskPriorityView.setText(tasksList.get(0).priority);
         }else{
             taskNumber.setText("You have " + tasksList.size() + " tasks");
-            taskListView.setText("none");
+            taskDateView.setText("");
+            taskNameView.setText("None");
+            taskPriorityView.setText("");
+
+
         }
     }
 

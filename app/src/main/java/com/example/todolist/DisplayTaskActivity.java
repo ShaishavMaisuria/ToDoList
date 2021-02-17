@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+
 public class DisplayTaskActivity extends AppCompatActivity {
     Task task;
     final static public String display_key ="DisplayTask Acitivity";
@@ -25,7 +27,8 @@ public class DisplayTaskActivity extends AppCompatActivity {
             tname.setText(task.taskName.toString());
 
             TextView date=findViewById(R.id.textViewDate);
-            date.setText(task.taskDueDate.toString());
+            String date1 = new SimpleDateFormat("MM/dd/YYYY").format(task.taskDueDate.getTime());
+            date.setText(date1);
 
             TextView priority=findViewById(R.id.textViewPriorityInfo);
             priority.setText(task.priority.toString());

@@ -5,24 +5,30 @@ import android.util.Log;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Task implements Serializable {
     String taskName;
     //String taskDate;
-    Integer priority;
-    Date taskDueDate;
+    String priority;
+    Calendar taskDueDate;
 
-    public Task(String taskName, Date taskDate, Integer priority) {
+    public Task(String taskName, Calendar taskDate, String priority) {
         this.taskName = taskName;
 
+        this.taskDueDate=taskDate;
+        SimpleDateFormat format= new SimpleDateFormat("MM/dd/yyyy");
 
-        try {
-            this.taskDueDate =  new SimpleDateFormat("MM/dd/yyyy").parse(taskDate.toString());
-            Log.d("taskdate","date= "+this.taskDueDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+
+        Log.d("taskdate","date= "+this.taskDueDate);
+//
+//        try {
+//            this.taskDueDate =  new SimpleDateFormat("MM/dd/yyyy").parse(taskDate.toString());
+//            Log.d("taskdate","date= "+this.taskDueDate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         this.priority = priority;
     }
 
@@ -34,30 +40,30 @@ public class Task implements Serializable {
         this.taskName = taskName;
     }
 
-    public Date gettaskDueDate() {
+    public Calendar gettaskDueDate() {
         return taskDueDate;
     }
 
-    public void settaskDueDate(Date taskDate) {
+    public void settaskDueDate(Calendar taskDate) {
         this.taskDueDate = taskDate;
     }
 
-    public Integer getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(Integer priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
-
+    public String convertedDate(){String date1 = new SimpleDateFormat("MM/dd/YYYY").format(this.taskDueDate.getTime()); return date1.toString(); }
     @Override
     public String toString() {
 
+        String date1 = new SimpleDateFormat("MM/dd/YYYY").format(taskDueDate.getTime());
 
-
-                    return "TaskName= " + taskName + '\'' +
-                    "\nDate= " +     taskDueDate+                    "\n \t \t \t \t \t \t \t \t                \t \t \t   priority=" + priority
+                    return "TaskName= " + taskName +
+                    "\nDate= " +     date1+                    "\n \t \t \t \t \t \t \t \t                \t \t \t   priority=" + priority
                     ;
 
 
